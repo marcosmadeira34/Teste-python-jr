@@ -41,9 +41,13 @@ class GithubApi:
 
         :login: login da organização no Github
         """
+        hearders = {
+            "Authorization": "token" + GITHUB_TOKEN,
+            "Accept": "Application/vnd.github.v3+json"
+        }
         
         url = urljoin(GITHUB_API_URL, f'/orgs/{login}/public_members')
-        response = requests.get(url=url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+        response = requests.get(url=url, headers=hearders)
 
         if response.ok:
             return response
