@@ -19,7 +19,7 @@ from rest_framework.routers import DefaultRouter
 from api import views
 
 
-routers = DefaultRouter()
+routers = DefaultRouter(trailing_slash=False)
 routers.register("api", views.OrganizationViewSet)
 
 
