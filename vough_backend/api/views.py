@@ -3,6 +3,7 @@ from rest_framework.views import Response
 from drf_spectacular.utils import extend_schema
 from django.utils.decorators import method_decorator
 from django.views.decorators import cache
+from django_filters import rest_framework as filters
 from .integrations.github import GithubApi
 from vough_backend.settings import CACHE_TTL
 from . import models, serializers
@@ -20,8 +21,11 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = models.Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
     lookup_field = "login"
-    permission_classes = []
-    authentication_classes = []
+    
+    # adicionando filtros
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
+
 
     @extend_schema(
         summary='Consulta clientes ordenados pela prioridade',
@@ -32,9 +36,9 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     # retorna lista de organizações ordenadas pelo score
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset().order_by('-score'))
-
         page = self.paginate_queryset(queryset)
 
+       
         if page is not None:
             serializers = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializers.data)

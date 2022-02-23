@@ -4,8 +4,7 @@ de código aberto.
 O objetivo desta API é auxiliar a empresa de marketing Vough a rankear seus atuais e potencias clientes e priorizar projetos
 maiores e mais influentes de empresas de tecnologia que disponibilizam código aberto(open source).
 
-O valor desse cálculo de prioridade na versão desta API é dado pela "quantidade de membros públicos da organização no Github
-+ quantidade de repositórios públicos, fornecedo uma pontuação "score".
+O valor desse cálculo de prioridade na versão desta API é dado pela "quantidade de membros públicos da organização no Github + quantidade de repositórios públicos, fornecedo uma pontuação "score".
 
 Para executar o projeto na sua IDE de preferência:
 
