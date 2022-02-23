@@ -13,6 +13,16 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import django_heroku
 
+# 
+import environ
+
+
+
+env = environ.Env()
+root_path = environ.Path(__file__) - 3
+env.read_env(env_file=root_path(".env"))
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,11 +33,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "38sg$ey_)-q^8bs(ns&bc%_@%)&x9iha47pv5-p8l1t19f7&8g"
 
+GITHUB_API_URL = env('GITHUB_API_URL', default='https://api.github.com/')
+GITHUB_TOKEN = env('GITHUB_TOKEN', default='')
+
+CACHE_TTL = 60 * 15
+
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+SESSIONS_ENGINE = "django.contrib.sessions.backends.cache"
 
 # Application definition
 
@@ -39,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "api",
 ]
 
@@ -69,18 +88,26 @@ TEMPLATES = [
         },
     },
 ]
-
+    
 WSGI_APPLICATION = "vough_backend.wsgi.application"
+
+USE_SESSION_AUTH = False
+
 
 # Django Rest Framework
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
     ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+
 
 DATABASES = {
     "default": {
