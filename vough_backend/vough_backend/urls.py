@@ -18,9 +18,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api import views
 
-''' 
+
 routers = DefaultRouter()
-routers.register("api", views.OrganizationViewSet) '''
+routers.register("api", views.OrganizationViewSet)
 
 
 

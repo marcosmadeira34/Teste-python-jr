@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, views
+from rest_framework import viewsets, status, views, generics
 from rest_framework.views import Response
 from drf_spectacular.utils import extend_schema
 from django.utils.decorators import method_decorator
@@ -66,7 +66,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             return views.Response({'login': login, 'message': 'Nenhuma organização localizada com o login informado'}, status=404)
 
         name = api.get_name(organization.json())        
-        score = api.get_score(organization.json())
+        score = api.get_score(organization.json(), public_members.json())
         status_retrieve = status.HTTP_200_OK
 
         
@@ -91,7 +91,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         login = self.kwargs.get(self.lookup_field).lower()  
         try:
-            instance = generic.get_object_or_404(models.Organization, login=login)
+            instance = generics.get_object_or_404(models.Organization, login=login)
         except:
             return views.Response({'login': login, 'message': 'Organização inexistente ou não consultada anteriormente'}, status=404)
 

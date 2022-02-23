@@ -13,8 +13,6 @@ routers.register('orgs', views.OrganizationViewSet)
 urlpatterns =[
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('', SpectacularSwaggerView.as_view(), name='swagger-ui'),
-
-
     path('', include(routers.urls))
 ]
 
